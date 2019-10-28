@@ -18,21 +18,20 @@ img{
 	<h1>DISCLAIMER: All Images from <a href="https://unsplash.com">https://unsplash.com</a> (THANK YOU). FOR Educational
 		Purpose Only!</h1>
 	<h2>Rendering time: <span style="background-color: red; color: white; padding: 2px 5px;" id="rendering-time"> ... counting (wait until all image fully loaded)</span> </h2>
-	<img class="lozad" data-src="img/photo@1.jpg">
-	<img class="lozad" data-src="img/photo@2.jpg">
-	<img class="lozad" data-src="img/photo@3.jpg">
-	<img class="lozad" data-src="img/photo@4.jpg">
-	<img class="lozad" data-src="img/photo@5.jpg">
-	<img class="lozad" data-src="img/photo@6.jpg">
+	<img class="lazyload" data-src="img/photo@1.jpg" src="img/thumbs/photo@1.jpg">
+	<img class="lazyload" data-src="img/photo@2.jpg" src="img/thumbs/photo@2.jpg">
+	<img class="lazyload" data-src="img/photo@3.jpg" src="img/thumbs/photo@3.jpg">
+	<img class="lazyload" data-src="img/photo@4.jpg" src="img/thumbs/photo@4.jpg">
+	<img class="lazyload" data-src="img/photo@5.jpg" src="img/thumbs/photo@5.jpg">
+	<img class="lazyload" data-src="img/photo@6.jpg" src="img/thumbs/photo@6.jpg">
 	<!-- <img src="img/photo@7.jpg">
 	<img src="img/photo@8.jpg">
 	<img src="img/photo@9.jpg"> -->
 </body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 <!-- run lozad script -->
 <script>
-	const observer = lozad(); // lazy loads elements with default selector as '.lozad'
-	observer.observe();
+	lazyload();
 </script>
 <script>
 	var timerStart = Date.now();
