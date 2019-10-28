@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Sample Page without Lazyload</title>
+</head>
+<style>
+img{
+	padding: 50px 10px;
+	display: inline-block;
+	width: 500px;
+	height: 700px;
+}
+</style>
+<body>
+	<h1>DISCLAIMER: All Images from <a href="https://unsplash.com">https://unsplash.com</a> (THANK YOU). FOR Educational
+		Purpose Only!</h1>
+	<h2>Rendering time: <span style="background-color: red; color: white; padding: 2px 5px;" id="rendering-time"></span> </h2>
+	<img src="/img/photo@1.jpg">
+	<img src="/img/photo@2.jpg">
+	<img src="/img/photo@3.jpg">
+	<img src="/img/photo@4.jpg">
+	<img src="/img/photo@5.jpg">
+	<img src="/img/photo@6.jpg">
+	<img src="/img/photo@7.jpg">
+	<img src="/img/photo@8.jpg">
+	<img src="/img/photo@9.jpg">
+</body>
+<script>
+	var timerStart = Date.now();
+	document.addEventListener('DOMContentLoaded', function(){
+		//eksekusi waktu ketika page telah load seutuhnya
+		let loadTime = (Date.now() - timerStart) / 1000;
+		document.getElementById("rendering-time").append(loadTime);
+
+	}, false);
+</script>
+</html>
