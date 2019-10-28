@@ -26,11 +26,7 @@
 			float: left;
 			margin: 50px 10px;
 
-			/* display: block;
-			padding: 4px;
-			margin-bottom: 20px; */
 			line-height: 1.42857143;
-			background-color: #fff;
 			border: 1px solid #ddd;
 			border-radius: 4px;
 			-webkit-transition: border 0.2s ease-in-out;
@@ -71,37 +67,37 @@
 				... counting (wait until all image fully loaded)</span> </h2>
 
 		<div class="image_placeholder">
-			<div class="placeholder lozad" data-background-image="img/photo@1.jpg">
+			<div class="placeholder" data-large="img/photo@1.jpg">
 				<img data-src="img/thumbs/photo@1.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lozad" data-background-image="img/photo@2.jpg">
+			<div class="placeholder" data-large="img/photo@2.jpg">
 				<img data-src="img/thumbs/photo@2.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lozad" data-background-image="img/photo@3.jpg">
+			<div class="placeholder" data-large="img/photo@3.jpg">
 				<img data-src="img/thumbs/photo@3.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lozad" data-background-image="img/photo@4.jpg">
+			<div class="placeholder" data-large="img/photo@4.jpg">
 				<img data-src="img/thumbs/photo@4.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lozad" data-background-image="img/photo@5.jpg">
+			<div class="placeholder" data-large="img/photo@5.jpg">
 				<img data-src="img/thumbs/photo@5.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lozad" data-background-image="img/photo@6.jpg">
+			<div class="placeholder" data-large="img/photo@6.jpg">
 				<img data-src="img/thumbs/photo@6.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
@@ -131,28 +127,27 @@
 				let placeholder = document.querySelectorAll(".placeholder"); //('.placeholder');
 
 				placeholder.forEach(element => {
-					if (checkVisible(element)) {
-						let smallImage = element.getElementsByClassName('img-small')[0];
-						// Load placeholder image
-						var img = new Image();
-						img.src = smallImage.getAttribute('data-src')
-						img.onload = function () {
-							smallImage.classList.add('loaded');
-						}
-
-						// Load large image
-						var largeImage = new Image();
-						largeImage.src = element.getAttribute('data-background-image');
-						// largeImage.classList.add('lozad')
-						largeImage.onload = function () {
-							largeImage.classList.add('loaded');
-							smallImage.replaceWith(largeImage);
-						}
+					let smallImage = element.getElementsByClassName('img-small')[0];
+					// Load placeholder image
+					var img = new Image();
+					img.src = smallImage.getAttribute('data-src')
+					img.onload = function () {
+						smallImage.classList.add('loaded');
 					}
 
+					// Load large image
+					var largeImage = new Image();
+					largeImage.src = element.getAttribute('data-large');
+					// largeImage.setAttribute("data-src", element.getAttribute('data-large'));
+					// largeImage.classList.add('lozad');
+					largeImage.onload = function () {
+						largeImage.classList.add('loaded');
+						smallImage.replaceWith(largeImage);
+						// smallImage.removeAttribute("src");
+					}
+					// observer.observe();
 				})
 			};
-			observer.observe();
 		</script>
 
 </html>
