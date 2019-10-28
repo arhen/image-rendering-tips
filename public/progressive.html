@@ -72,44 +72,43 @@
 
 		<div class="image_placeholder">
 			<div class="placeholder lozad" data-background-image="img/photo@1.jpg">
-				<img src="img/thumbs/photo@1.jpg" class="lozad img-small">
+				<img data-src="img/thumbs/photo@1.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder lozad" data-background-image="img/photo@2.jpg">
-				<img src="img/thumbs/photo@2.jpg" class="lozad img-small">
+				<img data-src="img/thumbs/photo@2.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder lozad" data-background-image="img/photo@3.jpg">
-				<img src="img/thumbs/photo@3.jpg" class="lozad img-small">
+				<img data-src="img/thumbs/photo@3.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder lozad" data-background-image="img/photo@4.jpg">
-				<img src="img/thumbs/photo@4.jpg" class="lozad img-small">
+				<img data-src="img/thumbs/photo@4.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder lozad" data-background-image="img/photo@5.jpg">
-				<img src="img/thumbs/photo@5.jpg" class="lozad img-small">
+				<img data-src="img/thumbs/photo@5.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder lozad" data-background-image="img/photo@6.jpg">
-				<img src="img/thumbs/photo@6.jpg" class="lozad img-small">
+				<img data-src="img/thumbs/photo@6.jpg" class="lozad img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 		<!-- run lozad script -->
 		<script>
-
 			var timerStart = Date.now();
 
 			const observer = lozad(); // lazy loads elements with default selector as '.lozad'
@@ -123,8 +122,6 @@
 			}
 
 			window.onload = (event) => {
-
-
 				//eksekusi waktu ketika page telah load seutuhnya
 				let loadTime = (Date.now() - timerStart) / 1000;
 				document.getElementById("rendering-time").innerHTML = loadTime + 's';
@@ -134,13 +131,13 @@
 				let placeholder = document.querySelectorAll(".placeholder"); //('.placeholder');
 
 				placeholder.forEach(element => {
-					if(checkVisible(element)){
+					if (checkVisible(element)) {
 						let smallImage = element.getElementsByClassName('img-small')[0];
 						// Load placeholder image
 						var img = new Image();
-						img.src = smallImage.getAttribute('src')
+						img.src = smallImage.getAttribute('data-src')
 						img.onload = function () {
-						smallImage.classList.add('loaded')
+							smallImage.classList.add('loaded');
 						}
 
 						// Load large image
@@ -148,13 +145,14 @@
 						largeImage.src = element.getAttribute('data-background-image');
 						// largeImage.classList.add('lozad')
 						largeImage.onload = function () {
-						largeImage.classList.add('loaded');
-						smallImage.replaceWith(largeImage);
+							largeImage.classList.add('loaded');
+							smallImage.replaceWith(largeImage);
 						}
 					}
 
 				})
 			};
+			observer.observe();
 		</script>
 
 </html>
