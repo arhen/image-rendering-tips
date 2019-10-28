@@ -30,10 +30,10 @@ img{
 </body>
 <script>
 	var timerStart = Date.now();
-	document.addEventListener('load', function(){
+	window.onload = (event) => {
 		//eksekusi waktu ketika page telah load seutuhnya
 		let loadTime = (Date.now() - timerStart) / 1000;
 		document.getElementById("rendering-time").append(loadTime);
-	}, false);
+	};
 </script>
 </html>
