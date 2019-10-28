@@ -67,37 +67,37 @@
 				... counting (wait until all image fully loaded)</span> </h2>
 
 		<div class="image_placeholder">
-			<div class="placeholder" data-large="img/photo@1.jpg">
+			<div class="placeholder lozad" data-background-image="img/photo@1.jpg">
 				<img src="img/thumbs/photo@1.jpg" class="img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder" data-large="img/photo@2.jpg">
+			<div class="placeholder lozad" data-background-image="img/photo@2.jpg">
 				<img src="img/thumbs/photo@2.jpg" class="img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder" data-large="img/photo@3.jpg">
+			<div class="placeholder lozad" data-background-image="img/photo@3.jpg">
 				<img src="img/thumbs/photo@3.jpg" class="img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder" data-large="img/photo@4.jpg">
+			<div class="placeholder lozad" data-background-image="img/photo@4.jpg">
 				<img src="img/thumbs/photo@4.jpg" class="img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder" data-large="img/photo@5.jpg">
+			<div class="placeholder lozad" data-background-image="img/photo@5.jpg">
 				<img src="img/thumbs/photo@5.jpg" class="img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder" data-large="img/photo@6.jpg">
+			<div class="placeholder lozad" data-background-image="img/photo@6.jpg">
 				<img src="img/thumbs/photo@6.jpg" class="img-small">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
@@ -107,9 +107,36 @@
 		<script>
 			var timerStart = Date.now();
 
-			const observer = lozad(); // lazy loads elements with default selector as '.lozad'
-			observer.observe();
+			const observer = lozad('.lozad', {
+				load: function (element) {
+					// Custom implementation on a loaded element
+					element.classList.add('loaded');
+					console.log('loading element');
 
+					let smallImage = element.getElementsByClassName('img-small')[0];
+					// Load placeholder image
+					var img = new Image();
+					img.src = smallImage.getAttribute('src')
+					img.onload = function () {
+						smallImage.classList.add('loaded');
+					}
+
+					// Load large image
+					var largeImage = new Image();
+					largeImage.src = element.getAttribute('data-background-image');
+					// largeImage.setAttribute("src", element.getAttribute('data-background-image'));
+					// largeImage.classList.add('lozad');
+					largeImage.onload = function () {
+						largeImage.classList.add('loaded');
+						smallImage.replaceWith(largeImage);
+						// smallImage.removeAttribute("src");
+					}
+
+					// Custom implementation to load an element
+					// e.g. el.src = el.getAttribute('data-src');
+				}
+			});
+			observer.observe();
 
 			function checkVisible(elm) {
 				var rect = elm.getBoundingClientRect();
@@ -122,31 +149,30 @@
 				let loadTime = (Date.now() - timerStart) / 1000;
 				document.getElementById("rendering-time").innerHTML = loadTime + 's';
 
-				// for progressive images load
+				// // for progressive images load
+				// let placeholder = document.querySelectorAll(".placeholder .lozad"); //('.placeholder');
 
-				let placeholder = document.querySelectorAll(".placeholder"); //('.placeholder');
+				// placeholder.forEach(element => {
+				// 	let smallImage = element.getElementsByClassName('img-small')[0];
+				// 	// Load placeholder image
+				// 	var img = new Image();
+				// 	img.src = smallImage.getAttribute('src')
+				// 	img.onload = function () {
+				// 		smallImage.classList.add('loaded');
+				// 	}
 
-				placeholder.forEach(element => {
-					let smallImage = element.getElementsByClassName('img-small')[0];
-					// Load placeholder image
-					var img = new Image();
-					img.src = smallImage.getAttribute('src')
-					img.onload = function () {
-						smallImage.classList.add('loaded');
-					}
-
-					// Load large image
-					var largeImage = new Image();
-					largeImage.src = element.getAttribute('data-large');
-					// largeImage.setAttribute("src", element.getAttribute('data-large'));
-					// largeImage.classList.add('lozad');
-					largeImage.onload = function () {
-						largeImage.classList.add('loaded');
-						smallImage.replaceWith(largeImage);
-						// smallImage.removeAttribute("src");
-					}
-					// observer.observe();
-				})
+				// 	// Load large image
+				// 	var largeImage = new Image();
+				// 	largeImage.src = element.getAttribute('data-background-image');
+				// 	// largeImage.setAttribute("src", element.getAttribute('data-background-image'));
+				// 	// largeImage.classList.add('lozad');
+				// 	largeImage.onload = function () {
+				// 		largeImage.classList.add('loaded');
+				// 		smallImage.replaceWith(largeImage);
+				// 		// smallImage.removeAttribute("src");
+				// 	}
+				// 	// observer.observe();
+				// })
 			};
 		</script>
 
