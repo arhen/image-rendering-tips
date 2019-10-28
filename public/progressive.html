@@ -108,7 +108,7 @@
 			var timerStart = Date.now();
 
 			const observer = lozad('.lozad', {
-				load: function (element) {
+				loaded: function (element) {
 					// Custom implementation on a loaded element
 					element.classList.add('loaded');
 					console.log('loading element');
