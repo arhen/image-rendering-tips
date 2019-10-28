@@ -17,7 +17,7 @@ img{
 <body>
 	<h1>DISCLAIMER: All Images from <a href="https://unsplash.com">https://unsplash.com</a> (THANK YOU). FOR Educational
 		Purpose Only!</h1>
-	<h2>Rendering time: <span style="background-color: red; color: white; padding: 2px 5px;" id="rendering-time"></span> </h2>
+	<h2>Rendering time: <span style="background-color: red; color: white; padding: 2px 5px;" id="rendering-time"> ... counting (wait until all image fully loaded)</span> </h2>
 	<img src="img/photo@1.jpg">
 	<img src="img/photo@2.jpg">
 	<img src="img/photo@3.jpg">
@@ -33,7 +33,7 @@ img{
 	window.onload = (event) => {
 		//eksekusi waktu ketika page telah load seutuhnya
 		let loadTime = (Date.now() - timerStart) / 1000;
-		document.getElementById("rendering-time").append(loadTime);
+		document.getElementById("rendering-time").innerHTML = loadTime;
 	};
 </script>
 </html>
