@@ -108,9 +108,9 @@
 			var timerStart = Date.now();
 
 			const observer = lozad('.lozad', {
-				loaded: function (element) {
+				load: function (element) {
 					// Custom implementation on a loaded element
-					element.classList.add('loaded');
+					// element.classList.add('loaded');
 					console.log('loading element');
 
 					let smallImage = element.getElementsByClassName('img-small')[0];
