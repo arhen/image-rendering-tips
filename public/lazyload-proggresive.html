@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Sample Page with Lazyload</title>
+	</head>
+	<style>
+		img {
+			/* padding: 50px 10px; */
+			display: inline-block;
+			width: 400px;
+			height: 650px;
+		}
+
+		/* progresive image loading css */
+		.placeholder {
+			background-color: #f6f6f6;
+			background-size: cover;
+			background-repeat: no-repeat;
+			position: relative;
+			overflow: hidden;
+			width: 30%;
+			float: left;
+			margin: 50px 10px;
+
+			line-height: 1.42857143;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			-webkit-transition: border 0.2s ease-in-out;
+			-o-transition: border 0.2s ease-in-out;
+			transition: border 0.2s ease-in-out;
+		}
+
+		.placeholder img {
+			position: absolute;
+			opacity: 0;
+			top: 0;
+			left: 0;
+			width: 100%;
+			transition: opacity 1s linear;
+		}
+
+		.placeholder img.loaded {
+			opacity: 1;
+		}
+
+		.img-small {
+			filter: blur(50px);
+			/* this is needed so Safari keeps sharp edges */
+			transform: scale(1);
+		}
+
+		.image_placeholder {
+			padding-right: 10px;
+			display: block;
+		}
+	</style>
+
+	<body>
+		<h1>DISCLAIMER: All Images from <a href="https://unsplash.com">https://unsplash.com</a> (THANK YOU). FOR
+			Educational
+			Purpose Only!</h1>
+		<h2>Rendering time: <span style="background-color: red; color: white; padding: 2px 5px;" id="rendering-time">
+				... counting (wait until all image fully loaded)</span> </h2>
+
+		<div class="image_placeholder">
+			<div class="placeholder lazy" data-large="img/photo@1.jpg">
+				<img src="img/thumbs/photo@1.jpg" class="img-small" data-srcset="img/photo@1.jpg">
+				<div style="padding-bottom: 650px;"></div>
+			</div>
+		</div>
+		<div class="image_placeholder">
+			<div class="placeholder lazy" data-large="img/photo@2.jpg">
+				<img src="img/thumbs/photo@2.jpg" class="img-small" data-srcset="img/photo@2.jpg">
+				<div style="padding-bottom: 650px;"></div>
+			</div>
+		</div>
+		<div class="image_placeholder">
+			<div class="placeholder lazy" data-large="img/photo@3.jpg">
+				<img src="img/thumbs/photo@3.jpg" class="img-small" data-srcset="img/photo@3.jpg">
+				<div style="padding-bottom: 650px;"></div>
+			</div>
+		</div>
+		<div class="image_placeholder">
+			<div class="placeholder lazy" data-large="img/photo@4.jpg">
+				<img src="img/thumbs/photo@4.jpg" class="img-small" data-srcset="img/photo@4.jpg">
+				<div style="padding-bottom: 650px;"></div>
+			</div>
+		</div>
+		<div class="image_placeholder">
+			<div class="placeholder lazy" data-large="img/photo@5.jpg">
+				<img src="img/thumbs/photo@5.jpg" class="img-small" data-srcset="img/photo@5.jpg">
+				<div style="padding-bottom: 650px;"></div>
+			</div>
+		</div>
+		<div class="image_placeholder">
+			<div class="placeholder lazy" data-large="img/photo@6.jpg">
+				<img src="img/thumbs/photo@6.jpg" class="img-small" data-srcset="img/photo@6.jpg">
+				<div style="padding-bottom: 650px;"></div>
+			</div>
+		</div>
+		<!-- run lozad script -->
+		<script>
+			var timerStart = Date.now();
+
+			window.onload = (event) => {
+				//eksekusi waktu ketika page telah load seutuhnya
+				let loadTime = (Date.now() - timerStart) / 1000;
+				document.getElementById("rendering-time").innerHTML = loadTime + 's';
+
+				var lazyImages = [].slice.call(document.querySelectorAll("div.lazy"));;
+
+				if ("IntersectionObserver" in window && "IntersectionObserverEntry" in window && "intersectionRatio" in
+					window.IntersectionObserverEntry.prototype) {
+					let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+						entries.forEach(function (entry) {
+							if (entry.isIntersecting) {
+								let lazyParentImageDiv = entry.target;
+								// console.log(lazyParentImageDiv)
+								let smallImage = entry.target.children[0];
+								// Load placeholder image
+								var img = new Image();
+								img.src = smallImage.getAttribute('src')
+								img.onload = function () {
+									smallImage.classList.add('loaded');
+								}
+
+								// // Load large image
+								var largeImage = new Image();
+								largeImage.src = lazyParentImageDiv.getAttribute('data-large');
+								largeImage.onload = function () {
+									largeImage.classList.add('loaded');
+									smallImage.replaceWith(largeImage);
+								};
+
+								largeImage.classList.remove("lazy");
+								lazyImageObserver.unobserve(largeImage);
+							}
+						});
+					});
+
+					lazyImages.forEach(function (lazyImage) {
+						lazyImageObserver.observe(lazyImage);
+					});
+				}
+			};
+		</script>
+
+</html>
