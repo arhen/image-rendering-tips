@@ -67,32 +67,32 @@
 				... counting (wait until all image fully loaded)</span> </h2>
 
 		<div class="image_placeholder">
-			<div class="placeholder lazy" data-large="img/photo@1.jpg">
-				<img src="img/thumbs/photo@1.jpg" class="img-small" data-srcset="img/photo@1.jpg">
+			<div class="placeholder" data-large="img/photo@1.jpg">
+				<img src="img/thumbs/photo@1.jpg" class="img-small lazy" data-srcset="img/photo@1.jpg">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lazy" data-large="img/photo@2.jpg">
-				<img src="img/thumbs/photo@2.jpg" class="img-small" data-srcset="img/photo@2.jpg">
+			<div class="placeholder" data-large="img/photo@2.jpg">
+				<img src="img/thumbs/photo@2.jpg" class="img-small lazy" data-srcset="img/photo@2.jpg">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lazy" data-large="img/photo@3.jpg">
-				<img src="img/thumbs/photo@3.jpg" class="img-small" data-srcset="img/photo@3.jpg">
+			<div class="placeholder" data-large="img/photo@3.jpg">
+				<img src="img/thumbs/photo@3.jpg" class="img-small lazy" data-srcset="img/photo@3.jpg">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lazy" data-large="img/photo@4.jpg">
-				<img src="img/thumbs/photo@4.jpg" class="img-small" data-srcset="img/photo@4.jpg">
+			<div class="placeholder" data-large="img/photo@4.jpg">
+				<img src="img/thumbs/photo@4.jpg" class="img-small lazy" data-srcset="img/photo@4.jpg">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lazy" data-large="img/photo@5.jpg">
-				<img src="img/thumbs/photo@5.jpg" class="img-small" data-srcset="img/photo@5.jpg">
+			<div class="placeholder" data-large="img/photo@5.jpg">
+				<img src="img/thumbs/photo@5.jpg" class="img-small lazy" data-srcset="img/photo@5.jpg">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
@@ -111,24 +111,18 @@
 				let loadTime = (Date.now() - timerStart) / 1000;
 				document.getElementById("rendering-time").innerHTML = loadTime + 's';
 
-				var lazyImages = [].slice.call(document.querySelectorAll("div.lazy"));;
+				var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
 
 				if ("IntersectionObserver" in window && "IntersectionObserverEntry" in window && "intersectionRatio" in
 					window.IntersectionObserverEntry.prototype) {
 					let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
 						entries.forEach(function (entry) {
 							if (entry.isIntersecting) {
-								let lazyParentImageDiv = entry.target;
-								// console.log(lazyParentImageDiv)
-								let smallImage = entry.target.children[0];
-								// Load placeholder image
-								var img = new Image();
-								img.src = smallImage.getAttribute('src')
-								img.onload = function () {
-									smallImage.classList.add('loaded');
-								}
+								let lazyParentImageDiv = entry.target.parentElement;
+								console.log(lazyParentImageDiv)
+								let smallImage = entry.target
 
-								// // Load large image
+								// Load large image
 								var largeImage = new Image();
 								largeImage.src = lazyParentImageDiv.getAttribute('data-large');
 								largeImage.onload = function () {
@@ -136,8 +130,8 @@
 									smallImage.replaceWith(largeImage);
 								};
 
-								largeImage.classList.remove("lazy");
-								lazyImageObserver.unobserve(largeImage);
+								smallImage.classList.remove("lazy");
+								lazyImageObserver.unobserve(smallImage);
 							}
 						});
 					});
