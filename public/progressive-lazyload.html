@@ -68,37 +68,37 @@
 
 		<div class="image_placeholder">
 			<div class="placeholder" data-large="img/photo@1.jpg">
-				<img src="img/thumbs/photo@1.jpg" class="img-small lazy" data-srcset="img/photo@1.jpg">
+				<img src="img/thumbs/photo@1.jpg" class="img-small lazy">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder" data-large="img/photo@2.jpg">
-				<img src="img/thumbs/photo@2.jpg" class="img-small lazy" data-srcset="img/photo@2.jpg">
+				<img src="img/thumbs/photo@2.jpg" class="img-small lazy">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder" data-large="img/photo@3.jpg">
-				<img src="img/thumbs/photo@3.jpg" class="img-small lazy" data-srcset="img/photo@3.jpg">
+				<img src="img/thumbs/photo@3.jpg" class="img-small lazy">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder" data-large="img/photo@4.jpg">
-				<img src="img/thumbs/photo@4.jpg" class="img-small lazy" data-srcset="img/photo@4.jpg">
+				<img src="img/thumbs/photo@4.jpg" class="img-small lazy">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
 			<div class="placeholder" data-large="img/photo@5.jpg">
-				<img src="img/thumbs/photo@5.jpg" class="img-small lazy" data-srcset="img/photo@5.jpg">
+				<img src="img/thumbs/photo@5.jpg" class="img-small lazy">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
 		<div class="image_placeholder">
-			<div class="placeholder lazy" data-large="img/photo@6.jpg">
-				<img src="img/thumbs/photo@6.jpg" class="img-small" data-srcset="img/photo@6.jpg">
+			<div class="placeholder" data-large="img/photo@6.jpg">
+				<img src="img/thumbs/photo@6.jpg" class="img-small lazy">
 				<div style="padding-bottom: 650px;"></div>
 			</div>
 		</div>
@@ -118,9 +118,11 @@
 					let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
 						entries.forEach(function (entry) {
 							if (entry.isIntersecting) {
-								let lazyParentImageDiv = entry.target.parentElement;
-								console.log(lazyParentImageDiv)
 								let smallImage = entry.target
+								let lazyParentImageDiv = smallImage.parentElement;
+
+								//add effect blurring with effect transition
+								smallImage.classList.add('loaded');
 
 								// Load large image
 								var largeImage = new Image();
@@ -130,8 +132,10 @@
 									smallImage.replaceWith(largeImage);
 								};
 
-								smallImage.classList.remove("lazy");
-								lazyImageObserver.unobserve(smallImage);
+								largeImage.classList.remove("lazy");
+								if(entry.intersectionRatio > 0){
+									lazyImageObserver.unobserve(smallImage);
+								}
 							}
 						});
 					});
